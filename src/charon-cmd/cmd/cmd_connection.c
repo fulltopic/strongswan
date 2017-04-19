@@ -125,6 +125,8 @@ struct private_cmd_connection_t {
 	 * Selected connection profile
 	 */
 	profile_t profile;
+	
+	uint16_t remote_port;
 };
 
 /**
@@ -180,7 +182,12 @@ static peer_cfg_t* create_peer_cfg(private_cmd_connection_t *this)
 	local_port = charon->socket->get_port(charon->socket, FALSE);
 	if (local_port != IKEV2_UDP_PORT)
 	{
-		remote_port = IKEV2_NATT_PORT;
+		if(this->remote_port > 0)
+		{
+			remote_port = this->remote_port;
+		}else {
+			remote_port = IKEV2_NATT_PORT;
+		}
 	}
 	ike_cfg = ike_cfg_create(version, TRUE, FALSE, "0.0.0.0", local_port,
 					this->host, remote_port, FRAGMENTATION_NO, 0);
@@ -479,6 +486,7 @@ METHOD(cmd_connection_t, handle, bool,
 	private_cmd_connection_t *this, cmd_option_type_t opt, char *arg)
 {
 	proposal_t *proposal;
+	this->remote_port = 0;
 
 	switch (opt)
 	{
@@ -532,6 +540,14 @@ METHOD(cmd_connection_t, handle, bool,
 			break;
 		case CMD_OPT_PROFILE:
 			set_profile(this, arg);
+			break;
+		case CMD_OPT_REMOTEPORT:
+			this->remote_port = atoi(arg);
+			if(this->remote_port <= 0)
+			{
+				DBG0(DBG_CFG, "Invalid port number %s \n", arg);
+				this->remote_port = 0;
+			}
 			break;
 		default:
 			return FALSE;
