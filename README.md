@@ -1296,3 +1296,14 @@ readable format:
         + carol.strongswan.org  192.168.0.100 -- 192.168.0.1 == 10.1.0.0/16
     Jul 19 22:15:17 moon vpn:
         - carol.strongswan.org  192.168.0.100 -- 192.168.0.1 == 10.1.0.0/16
+        
+## Remote Port Configuration ##
+
+This is private repository to add remote port as charon-cmd argument.
+
+    --remote-port PORTNUM
+    
+By default, configure as:
+
+    ./configure --enable-cmd --enable-eap-identity --enable-eap-md5 --enable-eap-mschapv2 --enable-eap-tls --enable-eap-ttls --enable-eap-peap --enable-eap-tnc --enable-eap-dynamic --enable-eap-radius --enable-xauth-eap --enable-xauth-pam --enable-dhcp --enable-openssl --enable-addrblock --enable-unity --enable-certexpire --enable-radattr --enable-tools --enable-openssl --disable-gmp --enable-kernel-libipsec
+
