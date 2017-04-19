@@ -68,4 +68,6 @@ cmd_option_t cmd_options[CMD_OPT_COUNT] = {
 		"  ikev1-pub[-am], ikev1-xauth[-am],",
 		"  ikev1-xauth-psk[-am], ikev1-hybrid[-am]",
 	}},
+	{ CMD_OPT_REMOTEPORT, "remote-port", required_argument, "proposal", 
+	  "port before NAT, default 4500", {}},
 };
